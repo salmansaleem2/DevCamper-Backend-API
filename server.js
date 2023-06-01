@@ -1,5 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
+// const logger = require("./middlewear/logger");
+const morgan = require("morgan");
 
 // Routes files
 const bootcamps = require("./routes/bootcamps");
@@ -10,14 +12,10 @@ dotenv.config({ path: "./config/config.env" });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const logger = (req, res, next) => {
-  req.hello = "Hello World";
-  console.log("Middlewear ran");
-  next();
-};
-
-app.use(logger);
-
+// Dev logging middleewear
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 // Mount routers
 app.use("/api/v1/bootcamps", bootcamps);
 
