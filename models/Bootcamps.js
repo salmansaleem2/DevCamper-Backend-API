@@ -26,7 +26,7 @@ const BootCampSchema = new mongoose.Schema({
     maxlength: [20, "Phone number can not be longer than 20 characters"],
   },
   email: {
-    type: string,
+    type: String,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please add a valid email",

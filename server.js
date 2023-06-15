@@ -15,6 +15,10 @@ connectDB();
 const bootcamps = require("./routes/bootcamps");
 
 const app = express();
+
+// body parser
+app.use(express.json({ limit: "10mb" }));
+
 const PORT = process.env.PORT || 5000;
 
 // Dev logging middleewear
