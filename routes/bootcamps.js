@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   getBootcamps,
   getBootcamp,
-  CreateBootcamp,
+  createBootcamp,
   UpdateBootcamp,
   DeleteBootcamp,
 } = require("../controllers/bootcamps");
@@ -17,7 +17,7 @@ const {
 //   res.status(200).json({ success: true, msg: "Show all bootcamps" });
 // });
 
-router.route("/").get(getBootcamps).post(CreateBootcamp);
+router.route("/").get(getBootcamps).post(createBootcamp);
 router
   .route("/:id")
   .get(getBootcamp)
