@@ -105,3 +105,21 @@ exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
   //   .status(200)
   //   .json({ success: true, msg: `Delete bootcamps ${req.params.id}` });
 });
+
+// @desc GET bootcamps within a radius
+// @route GET /api/v1/bootcamps/
+// @access Private
+exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
+  const bootcamp = await Bootcamp.findByIdAndDelete(req?.params?.id);
+
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+    );
+  }
+  res.status(200).json({ success: true, data: {} });
+
+  // res
+  //   .status(200)
+  //   .json({ success: true, msg: `Delete bootcamps ${req.params.id}` });
+});
