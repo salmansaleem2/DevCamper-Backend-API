@@ -165,14 +165,13 @@ exports.UpdateBootcamp = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req?.params?.id);
-
   if (!bootcamp) {
     return next(
       new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
     );
   }
+  await bootcamp.remove();
   // bootcamp.remove();
-  bootcamp.remove();
 
   res.status(200).json({ success: true, data: {} });
 
@@ -180,6 +179,19 @@ exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
   //   .status(200)
   //   .json({ success: true, msg: `Delete bootcamps ${req.params.id}` });
 });
+// exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
+//   const bootcamp = await Bootcamp.findById(req?.params?.id);
+//   console.log(bootcamp, "testing");
+//   if (!bootcamp) {
+//     return next(
+//       new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+//     );
+//   }
+
+//   bootcamp.deleteOne();
+
+//   res.status(200).json({ success: true, data: {} });
+// });
 
 // @desc GET bootcamps within a radius
 // @route GET /api/v1/bootcamps/radius/:zipcode/:distance
