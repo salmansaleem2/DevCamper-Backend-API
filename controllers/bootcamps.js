@@ -1,4 +1,5 @@
 const ErrorResponse = require("../utils/errorResponse");
+// const Bootcamp = require("../models/Bootcamp");
 const Bootcamp = require("../models/Bootcamps");
 const asyncHandler = require("../middlewear/async");
 const geocoder = require("../utils/geocoder");
@@ -165,13 +166,16 @@ exports.UpdateBootcamp = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req?.params?.id);
+
+  console.log(bootcamp);
   if (!bootcamp) {
     return next(
       new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
     );
   }
-  await bootcamp.remove();
-  // bootcamp.remove();
+  console.log(typeof bootcamp.remove);
+  // await bootcamp?.remove();
+  bootcamp.remove();
 
   res.status(200).json({ success: true, data: {} });
 

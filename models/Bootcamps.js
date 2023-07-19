@@ -136,14 +136,6 @@ BootCampSchema.pre("save", async function (next) {
   this.address = undefined;
   next();
 });
-// cascade delete courses when a bootcamp is deleted
-BootCampSchema.pre("remove", async function (next) {
-  console.log(`Courses being removed from bootcamp ${this._id}`);
-  await this.model("Course").deleteMany({
-    bootcamp: this._id,
-  });
-  next();
-});
 
 // Reverse populate with  virtuals
 BootCampSchema.virtual("courses", {
@@ -152,6 +144,27 @@ BootCampSchema.virtual("courses", {
   foreignField: "bootcamp",
   justOne: false,
 });
+
+// cascade delete courses when a bootcamp is deleted
+// BootCampSchema.pre("remove", async function (next) {
+//   console.log(`Courses being removed from bootcamp ${this._id}`);
+//   await this.model("Course").deleteOne({
+//     bootcamp: this._id,
+//   });
+//   next();
+// });
+// cascade delete courses when a bootcamp is deleted
+BootCampSchema.pre(
+  "remove",
+  { document: true, query: false },
+  async function (next) {
+    console.log(`Courses being removed from bootcamp ${this._id}`);
+    await this.model("Course").deleteMany({
+      bootcamp: this._id,
+    });
+    next();
+  }
+);
 
 // module.exports = mongoose.model("Bootcamp", BootCampSchema);
 module.exports = mongoose.model("Bootcamp", BootCampSchema);
