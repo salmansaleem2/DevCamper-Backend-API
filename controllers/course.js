@@ -23,3 +23,22 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, count: courses.length, data: courses });
 });
+
+// @desc Get Single course
+// @route GET /api/v1/courses/:id
+// @access Public
+
+exports.getCourse = asyncHandler(async (req, res, next) => {
+  const course = await Course.findById(req.params.id).populate({
+    path: "bootcamp",
+    select: "name description",
+  });
+
+  if (!course) {
+    return next(
+      new ErrorResponse(`No course with the iid of ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json({ success: true, data: course });
+});
