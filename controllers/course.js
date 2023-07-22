@@ -1,6 +1,6 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middlewear/async");
-const Course = require("../models/Course");
+const Course = require("/models/Course");
 
 // @desc Get all courses
 // @route GET /api/v1/courses
