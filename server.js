@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const colors = require("colors");
 const fileupload = require("express-fileupload");
 const errorHandler = require("./middlewear/error");
+const path = require("path");
 
 const connectDB = require("./config/db");
 
@@ -31,6 +32,9 @@ if (process.env.NODE_ENV === "development") {
 
 // File upload
 app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
 app.use("/api/v1/bootcamps", bootcamps);
