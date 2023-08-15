@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middlewear/async");
 const User = require("../models/User");
+const crypto = require("crypto");
 
 // @desc   Register User
 // @route POST /api/v1/auth/register
@@ -53,8 +54,28 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
-// Get token from model, create cookie and send response
+// @desc  Forgot Password
+// @route POST /api/v1/auth/forgotpassword
+// @access Public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
 
+  if (!user) {
+    return next(new ErrorResponse("There is no user with that email", 404));
+  }
+
+  // Get Reset Token
+  const resetToken = user.getResetPasswordToken();
+  console.log(resetToken);
+
+  await user.save({
+    validateBeforeSave: false,
+  });
+
+  res.status(200).json({ success: true, data: user });
+});
+
+// Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken();
@@ -83,3 +104,32 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, data: user });
 });
+
+// @desc  Reset password
+// @route PUT /api/v1/auth/resetpassword/:resettoken
+// @access Private
+// exports.resetPassword = asyncHandler(async (req, res, next) => {
+//   // Get hashed token
+//   const resetPasswordToken = crypto
+//     .createHash("sha256")
+//     .update(req.params.resettoken)
+//     .digest("hex");
+
+//   const user = await User.findOne({
+//     resetPasswordToken,
+//     resetPasswordExpire: { $gt: Date.now() },
+//   });
+
+//   if (!user) {
+//     return next(new ErrorResponse("Invalid token", 400));
+//   }
+
+//   // set new password
+//   user.password = req.body.password;
+//   user.resetPasswordToken = undefined;
+//   user.resetPasswordExpire = undefined;
+//   await user.save();
+
+//   // res.status(200).json({ success: true, data: user });
+//   sendTokenResponse(user, 200, res);
+// });
