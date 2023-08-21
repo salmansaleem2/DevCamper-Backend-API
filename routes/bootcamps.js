@@ -16,10 +16,12 @@ const advancedResults = require("../middlewear/advancedResults");
 
 // Include other resource routers
 const courseRouter = require("./courses");
+const reviewRouter = require("./reviews");
 const { protect, authorize } = require("../middlewear/auth");
 
 // Re-route into other resource routers
 router.use("/:bootcampId/courses", courseRouter);
+router.use("/:bootcampId/reviews", reviewRouter);
 
 // router.get("/", (req, res) => {
 //   // for text/html
