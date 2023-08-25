@@ -45,7 +45,7 @@ ReviewSchema.statics.getAverageRating = async function (bootcampId) {
     {
       $match: { bootcamp: bootcampId },
     },
-    {<
+    {
       $group: { _id: "$bootcamp", averageRating: { $avg: "$rating" } },
     },
   ]);
