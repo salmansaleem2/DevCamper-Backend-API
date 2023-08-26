@@ -154,7 +154,7 @@ exports.DeleteBootcamp = asyncHandler(async (req, res, next) => {
   }
   console.log(typeof bootcamp.remove);
   // await bootcamp?.remove();
-  bootcamp.remove();
+  bootcamp.deleteOne();
 
   res.status(200).json({ success: true, data: {} });
 

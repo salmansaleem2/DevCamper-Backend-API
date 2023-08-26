@@ -5,6 +5,8 @@ const morgan = require("morgan");
 const colors = require("colors");
 const mongoSanitize = require("express-mongo-sanitize");
 const fileupload = require("express-fileupload");
+const helmet = require("helmet");
+const xss = require("xss-clean");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewear/error");
 const path = require("path");
@@ -43,6 +45,12 @@ app.use(fileupload());
 
 // Sanitize data
 app.use(mongoSanitize());
+
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attack
+app.use(xss());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
