@@ -261,5 +261,4 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
       data: file.name,
     });
   });
-// });
 });
